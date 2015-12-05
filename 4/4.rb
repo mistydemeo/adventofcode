@@ -4,7 +4,7 @@ INPUT = "bgvyzdsv"
 MD5 = Digest::MD5.new
 
 begin
-  prefix_size = ARGV[0].nil? ? 5 : Integer(ARGV[0])
+  prefix_size = ARGV[0].nil? ? 5 : Integer(ARGV[0], 10)
 rescue ArgumentError
   $stderr.puts "Argument was not an integer: #{ARGV[0]}"
   exit 1
