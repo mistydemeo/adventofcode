@@ -11,8 +11,7 @@ foreach my $line (split("\n", $input)) {
     if ($line =~ /(ab|cd|pq|xy)/) {
         next;
     }
-    my $count = ($line =~ tr/[aeiou]//);
-    if ($count < 3) {
+    if (($line =~ tr/[aeiou]//) < 3) {
         next;
     }
     if ($line !~ /(.)\1/) {
