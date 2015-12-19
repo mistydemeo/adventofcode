@@ -13,7 +13,7 @@ class LightArray
 
   def count_lights_on
     @ary.map do |ary|
-      ary.map {|light| light ? 1 : 0}.inject(&:+)
+      ary.select(&:itself).length
     end.inject(&:+)
   end
 
