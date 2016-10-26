@@ -13,11 +13,7 @@ class Wire(object):
         }
 
         # lol
-        try:
-            return eval(self.input, globals, {})
-        except:
-            print(self.input)
-            sys.exit(1)
+        return eval(self.input, globals, {})
 
     def get_value(self):
         if self.value is not None:
