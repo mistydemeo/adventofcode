@@ -9,7 +9,7 @@ import (
 
 func StringsToInt(input []string) ([]int, error) {
 	var output []int
-	for _, string := range(input) {
+	for _, string := range input {
 		i, err := strconv.Atoi(string)
 		if err != nil {
 			return nil, err
@@ -36,9 +36,9 @@ func main() {
 	var output int
 	// yeah, a double iteration isn't especially fast, but at least
 	// we can break early
-	for _, i1 := range(numbers) {
-		for _, i2 := range(numbers) {
-			if i1 + i2 == 2020 {
+	for _, i1 := range numbers {
+		for _, i2 := range numbers {
+			if i1+i2 == 2020 {
 				output = i1 * i2
 				break
 			}
