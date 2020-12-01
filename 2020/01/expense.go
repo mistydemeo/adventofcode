@@ -29,7 +29,6 @@ func DoubleIterationSum(numbers []int) int {
 		for _, i2 := range numbers {
 			if i1+i2 == 2020 {
 				return i1 * i2
-				break
 			}
 		}
 	}
@@ -43,7 +42,6 @@ func TripleIterationSum(numbers []int) int {
 			for _, i3 := range numbers {
 				if i1+i2+i3 == 2020 {
 					return i1 * i2 * i3
-					break
 				}
 			}
 		}
