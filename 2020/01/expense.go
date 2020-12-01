@@ -3,6 +3,7 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -21,6 +22,36 @@ func StringsToInt(input []string) ([]int, error) {
 	return output, nil
 }
 
+func DoubleIterationSum(numbers []int) int {
+	// yeah, a double iteration isn't especially fast, but at least
+	// we can break early
+	for _, i1 := range numbers {
+		for _, i2 := range numbers {
+			if i1+i2 == 2020 {
+				return i1 * i2
+				break
+			}
+		}
+	}
+
+	return 0
+}
+
+func TripleIterationSum(numbers []int) int {
+	for _, i1 := range numbers {
+		for _, i2 := range numbers {
+			for _, i3 := range numbers {
+				if i1+i2+i3 == 2020 {
+					return i1*i2*i3
+					break
+				}
+			}
+		}
+	}
+
+	return 0
+}
+
 func main() {
 	data, err := ioutil.ReadFile("input.txt")
 	if err != nil {
@@ -34,18 +65,10 @@ func main() {
 	}
 
 	var output int
-	// yeah, a double iteration isn't especially fast, but at least
-	// we can break early
-	for _, i1 := range numbers {
-		for _, i2 := range numbers {
-			if i1+i2 == 2020 {
-				output = i1 * i2
-				break
-			}
-		}
-		if output != 0 {
-			break
-		}
+	if len(os.Args) > 1 && os.Args[1] == "--three" {
+		output = TripleIterationSum(numbers)
+	} else {
+		output = DoubleIterationSum(numbers)
 	}
 
 	if output != 0 {
