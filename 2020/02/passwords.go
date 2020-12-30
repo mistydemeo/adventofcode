@@ -8,8 +8,8 @@ import (
 )
 
 type Rule struct {
-	minimum int
-	maximum int
+	minimum   int
+	maximum   int
 	character string
 }
 
@@ -39,9 +39,9 @@ func ParseRuleDefinition(definition string) (*Rule, error) {
 		return nil, err
 	}
 
-	return &Rule {
-		minimum: minimum,
-		maximum: maximum,
+	return &Rule{
+		minimum:   minimum,
+		maximum:   maximum,
 		character: char,
 	}, nil
 }
