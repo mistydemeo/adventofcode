@@ -3,6 +3,7 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -16,6 +17,16 @@ type Rule struct {
 func (self Rule) passwordValid(password string) bool {
 	char_count := strings.Count(password, self.character)
 	return char_count >= self.minimum && char_count <= self.maximum
+}
+
+func (self Rule) passwordValidByPosition(password string) bool {
+	first := self.minimum - 1
+	second := self.maximum - 1
+	if string(password[first]) == self.character && string(password[second]) == self.character {
+		return false
+	}
+
+	return string(password[first]) == self.character || string(password[second]) == self.character
 }
 
 func ParseRuleDefinition(definition string) (*Rule, error) {
@@ -59,6 +70,8 @@ func ParseLine(input string) (*Rule, string, error) {
 }
 
 func main() {
+	position_method := len(os.Args) > 1 && os.Args[1] == "--correct"
+
 	data, err := ioutil.ReadFile("input.txt")
 	if err != nil {
 		log.Fatal("Error reading input:", err)
@@ -73,8 +86,14 @@ func main() {
 			log.Fatal("Error parsing input:", err)
 		}
 
-		if rule.passwordValid(password) {
-			valid_passwords++
+		if position_method {
+			if rule.passwordValidByPosition(password) {
+				valid_passwords++
+			}
+		} else {
+			if rule.passwordValid(password) {
+				valid_passwords++
+			}
 		}
 	}
 
