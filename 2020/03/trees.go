@@ -16,7 +16,7 @@ func RideSlope(right_step int, down_step int, lines []string) int {
 		step++
 
 		// Borrowed from https://github.com/coingraham/adventofcode/blob/master/2020/day3.py#L35
-		index := (step * 3) % width
+		index := (step * right_step) % width
 		if string(lines[i][index]) == "#" {
 			trees++
 		}
