@@ -35,15 +35,12 @@ func ParseRuleDefinition(definition string) (*Rule, error) {
 	match := re.FindStringSubmatch(definition)
 	char := match[3]
 
-	var minimum int
-	var maximum int
-	var err error
-	minimum, err = strconv.Atoi(match[1])
+	minimum, err := strconv.Atoi(match[1])
 	if err != nil {
 		return nil, err
 	}
 
-	maximum, err = strconv.Atoi(match[2])
+	maximum, err := strconv.Atoi(match[2])
 	if err != nil {
 		return nil, err
 	}
