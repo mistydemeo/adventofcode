@@ -12,7 +12,7 @@ func RideSlope(right_step int, down_step int, lines []string) int {
 
 	trees := 0
 	step := 0
-	for i := 1; i < height; i += down_step {
+	for i := down_step; i < height; i += down_step {
 		step++
 
 		// Borrowed from https://github.com/coingraham/adventofcode/blob/master/2020/day3.py#L35
@@ -36,4 +36,12 @@ func main() {
 	trees := RideSlope(3, 1, lines)
 
 	println(trees)
+
+	multiplied := RideSlope(1, 1, lines) *
+		RideSlope(3, 1, lines) *
+		RideSlope(5, 1, lines) * 
+		RideSlope(7, 1, lines) * 
+		RideSlope(1, 2, lines)
+
+	println(multiplied)
 }
