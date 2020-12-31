@@ -6,14 +6,7 @@ import (
 	"strings"
 )
 
-func main() {
-	data, err := ioutil.ReadFile("input.txt")
-	if err != nil {
-		log.Fatal("Error reading input:", err)
-	}
-
-	lines := strings.Split(string(data), "\n")
-
+func RideSlope(right_step int, down_step int, lines []string) int {
 	height := len(lines)
 	width := len(lines[0])
 
@@ -28,6 +21,19 @@ func main() {
 			trees++
 		}
 	}
+
+	return trees
+}
+
+func main() {
+	data, err := ioutil.ReadFile("input.txt")
+	if err != nil {
+		log.Fatal("Error reading input:", err)
+	}
+
+	lines := strings.Split(string(data), "\n")
+
+	trees := RideSlope(3, 1, lines)
 
 	println(trees)
 }
