@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -30,22 +31,19 @@ func (self Rule) passwordValidByPosition(password string) bool {
 }
 
 func ParseRuleDefinition(definition string) (*Rule, error) {
-	// TODO refactor this to use regular expressions
-	// First, split by " " to fetch whatever the character is
-	split_definition := strings.Split(definition, " ")
-	char := split_definition[1]
+	re := regexp.MustCompile(`(\d+)-(\d+) (\S)`)
+	match := re.FindStringSubmatch(definition)
+	char := match[3]
 
-	// Next, parse out the ranges
-	ranges := strings.Split(split_definition[0], "-")
 	var minimum int
 	var maximum int
 	var err error
-	minimum, err = strconv.Atoi(ranges[0])
+	minimum, err = strconv.Atoi(match[1])
 	if err != nil {
 		return nil, err
 	}
 
-	maximum, err = strconv.Atoi(ranges[1])
+	maximum, err = strconv.Atoi(match[2])
 	if err != nil {
 		return nil, err
 	}
