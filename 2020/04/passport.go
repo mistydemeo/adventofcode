@@ -46,8 +46,8 @@ func RangeValid(value string, minimum int, maximum int) bool {
 
 func HgtValid(value string) bool {
 	length := len(value)
-	unit := value[length - 2:length]
-	number := value[0:length - 2]
+	unit := value[length-2 : length]
+	number := value[0 : length-2]
 	if unit == "cm" {
 		return RangeValid(number, 150, 193)
 	} else if unit == "in" {
@@ -122,7 +122,6 @@ func PassportValid(passport Passport) bool {
 		case "pid":
 			result = PidValid(value)
 		}
-
 
 		if !result {
 			return false
