@@ -69,8 +69,14 @@ func main() {
 			continue
 		}
 
-		if seen[i-1] != id-1 || seen[i+1] != id+1 {
-			println("Candidate:", id)
+		if seen[i-1] != id-1 {
+			println(id-1)
+			break
+		}
+
+		if seen[i+1] != id+1 {
+			 println(id+1)
+			 break
 		}
 	}
 }
