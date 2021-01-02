@@ -3,6 +3,7 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"sort"
 	"strings"
 )
 
@@ -47,13 +48,29 @@ func main() {
 	lines := strings.Split(string(data), "\n")
 
 	highest := 0
+	seen := []int{}
 	for _, boarding_pass := range lines {
 		seat := DecodePass(boarding_pass)
 		boarding_id := CalculateBoardingPassID(seat)
+		seen = append(seen, boarding_id)
 		if boarding_id > highest {
 			highest = boarding_id
 		}
 	}
 
 	println(highest)
+
+	// Next, check for any missing IDs. We'll start by sorting so we can
+	// identify missing IDs positionally.
+	sort.Ints(seen)
+	for i, id := range seen {
+		// We won't be at the very front or the very end
+		if i == 0 || i == len(seen)-1 {
+			continue
+		}
+
+		if seen[i-1] != id-1 || seen[i+1] != id+1 {
+			println("Candidate:", id)
+		}
+	}
 }
