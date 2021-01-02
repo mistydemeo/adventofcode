@@ -31,7 +31,7 @@ func DecodePass(boarding_pass string) int {
 	horizontal_seat := row_range[1]
 	vertical_seat := column_range[1]
 
-	return horizontal_seat * 8 + vertical_seat
+	return horizontal_seat*8 + vertical_seat
 }
 
 func main() {
