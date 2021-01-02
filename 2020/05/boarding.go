@@ -21,7 +21,7 @@ func CalculateRange(boarding_pass string, low int, high int) []int {
 	return result
 }
 
-func DecodePass(boarding_pass string) int {
+func DecodePass(boarding_pass string) []int {
 	horizontal_range := boarding_pass[0:7]
 	vertical_range := boarding_pass[7:10]
 
@@ -31,7 +31,11 @@ func DecodePass(boarding_pass string) int {
 	horizontal_seat := row_range[1]
 	vertical_seat := column_range[1]
 
-	return horizontal_seat*8 + vertical_seat
+	return []int{horizontal_seat, vertical_seat}
+}
+
+func CalculateBoardingPassID(seat []int) int {
+	return seat[0]*8 + seat[1]
 }
 
 func main() {
@@ -44,7 +48,8 @@ func main() {
 
 	highest := 0
 	for _, boarding_pass := range lines {
-		boarding_id := DecodePass(boarding_pass)
+		seat := DecodePass(boarding_pass)
+		boarding_id := CalculateBoardingPassID(seat)
 		if boarding_id > highest {
 			highest = boarding_id
 		}
