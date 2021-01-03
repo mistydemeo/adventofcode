@@ -9,7 +9,7 @@ import (
 
 type Instruction struct {
 	operation string
-	argument int
+	argument  int
 }
 
 func ParseInstruction(source string) (*Instruction, error) {
@@ -22,7 +22,7 @@ func ParseInstruction(source string) (*Instruction, error) {
 
 	instruction := Instruction{
 		operation: operation,
-		argument: argument,
+		argument:  argument,
 	}
 
 	return &instruction, nil
