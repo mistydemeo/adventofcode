@@ -95,16 +95,7 @@ func RecursivelyCheckContents(bag Bag, rule_map map[string]Rule) bool {
 	return false
 }
 
-func main() {
-	data, err := ioutil.ReadFile("input.txt")
-	if err != nil {
-		log.Fatal("Error reading input:", err)
-	}
-
-	lines := strings.Split(string(data), "\n")
-	rules := ParseRules(lines)
-	rule_map := BuildRuleMap(rules)
-
+func CheckContents(rules []Rule, rule_map map[string]Rule) int {
 	count := 0
 	for _, rule := range rules {
 		valid := false
@@ -121,5 +112,19 @@ func main() {
 		}
 	}
 
+	return count
+}
+
+func main() {
+	data, err := ioutil.ReadFile("input.txt")
+	if err != nil {
+		log.Fatal("Error reading input:", err)
+	}
+
+	lines := strings.Split(string(data), "\n")
+	rules := ParseRules(lines)
+	rule_map := BuildRuleMap(rules)
+
+	count := CheckContents(rules, rule_map)
 	println(count)
 }
