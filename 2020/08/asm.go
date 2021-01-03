@@ -42,19 +42,9 @@ func ParseInstructions(lines []string) ([]Instruction, error) {
 	return instructions, nil
 }
 
-func main() {
-	data, err := ioutil.ReadFile("input.txt")
-	if err != nil {
-		log.Fatal("Error reading input:", err)
-	}
-
-	lines := strings.Split(string(data), "\n")
-	instructions, err := ParseInstructions(lines)
-	if err != nil {
-		log.Fatal("Error parsing instructions:", err)
-	}
-
-	// It's emulation time!
+// It's emulation time!
+func Emulate(instructions []Instruction) (int, bool) {
+	looped := false
 	// Global variable that asm instructions will mutate. Starts at 0.
 	accumulator := 0
 	seen_instructions := make(map[int]bool)
@@ -62,6 +52,7 @@ func main() {
 		// Break without operating if already seen
 		_, exists := seen_instructions[i]
 		if exists {
+			looped = true
 			break
 		}
 		seen_instructions[i] = true
@@ -77,5 +68,21 @@ func main() {
 		}
 	}
 
+	return accumulator, looped
+}
+
+func main() {
+	data, err := ioutil.ReadFile("input.txt")
+	if err != nil {
+		log.Fatal("Error reading input:", err)
+	}
+
+	lines := strings.Split(string(data), "\n")
+	instructions, err := ParseInstructions(lines)
+	if err != nil {
+		log.Fatal("Error parsing instructions:", err)
+	}
+
+	accumulator, _ := Emulate(instructions)
 	println(accumulator)
 }
