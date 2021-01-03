@@ -73,7 +73,7 @@ func main() {
 		case "acc":
 			accumulator += instruction.argument
 		case "jmp":
-			i = i + instruction.argument
+			i += instruction.argument - 1
 		}
 	}
 
