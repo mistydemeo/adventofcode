@@ -83,6 +83,34 @@ func main() {
 		log.Fatal("Error parsing instructions:", err)
 	}
 
+	// First, identify the value of the accumulator at the point
+	// that we hit the infinite loop
 	accumulator, _ := Emulate(instructions)
 	println(accumulator)
+
+	// Next, try to fix the infinite loop by changing a jmp to a nop
+	// or vice versa
+	for i, instruction := range instructions {
+		// We never alter any acc instructions
+		if instruction.operation == "acc" {
+			continue
+		}
+
+		altered_instructions := make([]Instruction, len(instructions))
+		copy(altered_instructions, instructions)
+
+		new_instruction := Instruction{operation: instruction.operation, argument: instruction.argument}
+		if instruction.operation == "jmp" {
+			new_instruction.operation = "nop"
+		} else {
+			new_instruction.operation = "jmp"
+		}
+		altered_instructions[i] = new_instruction
+
+		accumulator, looped := Emulate(altered_instructions)
+		if !looped {
+			println(accumulator)
+			break
+		}
+	}
 }
