@@ -83,6 +83,14 @@ func CountUnanimousResponses(lines []string) []int {
 	return unanimous_responses
 }
 
+func Summarize(numbers []int) int {
+	sum := 0
+	for _, count := range numbers {
+		sum += count
+	}
+	return sum
+}
+
 func main() {
 	data, err := ioutil.ReadFile("input.txt")
 	if err != nil {
@@ -91,16 +99,10 @@ func main() {
 
 	lines := strings.Split(string(data), "\n")
 	counts := CountResponses(lines)
-	sum := 0
-	for _, count := range counts {
-		sum += count
-	}
-	println(sum)
+	part_one_sum := Summarize(counts)
+	println(part_one_sum)
 
 	unanimous := CountUnanimousResponses(lines)
-	sum = 0
-	for _, count := range unanimous {
-		sum += count
-	}
-	println(sum)
+	part_two_sum := Summarize(unanimous)
+	println(part_two_sum)
 }
