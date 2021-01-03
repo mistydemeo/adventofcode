@@ -10,12 +10,12 @@ import (
 
 type Bag struct {
 	colour string
-	count int
+	count  int
 }
 
 type Rule struct {
 	colour string
-	bags []Bag
+	bags   []Bag
 }
 
 func ParseBagCondition(text string) Bag {
@@ -25,7 +25,7 @@ func ParseBagCondition(text string) Bag {
 	number, _ := strconv.Atoi(match[1])
 	return Bag{
 		colour: match[2],
-		count: number,
+		count:  number,
 	}
 }
 
@@ -41,7 +41,7 @@ func ParseBagConditions(text string) []Bag {
 
 func ParseRule(text string) Rule {
 	// Strip the trailing period
-	text = text[0:len(text) - 1]
+	text = text[0 : len(text)-1]
 	split := strings.Split(text, " bags contain ")
 	colour := split[0]
 	conditions := split[1]
@@ -53,7 +53,7 @@ func ParseRule(text string) Rule {
 
 	return Rule{
 		colour: colour,
-		bags: bags,
+		bags:   bags,
 	}
 }
 
@@ -67,6 +67,34 @@ func ParseRules(text []string) []Rule {
 	return rules
 }
 
+func BuildRuleMap(rules []Rule) map[string]Rule {
+	rule_map := make(map[string]Rule)
+	for _, rule := range rules {
+		rule_map[rule.colour] = rule
+	}
+
+	return rule_map
+}
+
+func CheckBag(bag Bag) bool {
+	if bag.colour == "shiny gold" {
+		return true
+	}
+
+	return false
+}
+
+func RecursivelyCheckContents(bag Bag, rule_map map[string]Rule) bool {
+	rule, _ := rule_map[bag.colour]
+	for _, bag := range rule.bags {
+		if CheckBag(bag) || RecursivelyCheckContents(bag, rule_map) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func main() {
 	data, err := ioutil.ReadFile("input.txt")
 	if err != nil {
@@ -75,13 +103,21 @@ func main() {
 
 	lines := strings.Split(string(data), "\n")
 	rules := ParseRules(lines)
+	rule_map := BuildRuleMap(rules)
 
 	count := 0
 	for _, rule := range rules {
+		valid := false
 		for _, bag := range rule.bags {
-			if bag.colour == "shiny gold" {
-				count++
+			// We're looking not just for first-level bag contents, but
+			// any possible depth of bag contents that could hypothetically
+			// contain our bag.
+			if CheckBag(bag) || RecursivelyCheckContents(bag, rule_map) {
+				valid = true
 			}
+		}
+		if valid {
+			count++
 		}
 	}
 
